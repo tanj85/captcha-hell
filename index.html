@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Verification Required</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Chatbot in corner -->
+        <div id="chatbot" class="chatbot">
+            <div class="chatbot-header">
+                <span>💬 Support Chat</span>
+                <button class="chatbot-minimize">−</button>
+            </div>
+            <div class="chatbot-content">
+                <div class="chatbot-messages" id="chatbot-messages"></div>
+            </div>
+        </div>
+
+        <!-- Main CAPTCHA container -->
+        <div id="captcha-container" class="captcha-container">
+            <!-- Step 0: Initial CAPTCHA -->
+            <div id="step-0" class="step active">
+                <div class="recaptcha-box">
+                    <div class="recaptcha-checkbox-container">
+                        <input type="checkbox" id="not-robot-checkbox" class="recaptcha-checkbox">
+                        <label for="not-robot-checkbox">
+                            <span class="checkmark"></span>
+                            I'm not a robot
+                        </label>
+                    </div>
+                    <div class="recaptcha-logo">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%234285f4' d='M12 0C5.372 0 0 5.373 0 12s5.372 12 12 12c6.627 0 12-5.373 12-12S18.627 0 12 0zm.25 5l4.5 2.6v5.2l-4.5 2.6-4.5-2.6V7.6l4.5-2.6z'/%3E%3C/svg%3E" alt="reCAPTCHA">
+                        <div class="recaptcha-text">
+                            <div>reCAPTCHA</div>
+                            <div class="recaptcha-privacy">Privacy - Terms</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 1: Brad Face Puzzle -->
+            <div id="step-1" class="step">
+                <div class="puzzle-container">
+                    <h2>Please complete the puzzle to verify you're human</h2>
+                    <div class="puzzle-instruction">Drag each piece to its correct position</div>
+                    <div class="puzzle-canvas-wrapper">
+                        <canvas id="puzzle-canvas" width="400" height="400"></canvas>
+                    </div>
+                    <div class="puzzle-piece-container">
+                        <!-- Pieces will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Ad Break -->
+            <div id="step-2" class="step ad-break">
+                <div class="ad-container">
+                    <div class="ad-header">
+                        <span>Advertisement</span>
+                        <button class="ad-close" id="ad-close-1" title="Watch the full video to close">✓</button>
+                    </div>
+                    <div class="ad-content">
+                        <video id="ad-video-1" class="ad-video" controls autoplay>
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                        </video>
+                        <div class="ad-text">
+                            By closing this ad, you agree to receive promotional materials and consent to data collection practices as outlined in our terms.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Create Account -->
+            <div id="step-3" class="step">
+                <div class="form-container">
+                    <h2>Create Your Account</h2>
+                    <p class="subtitle">Just one more step to verify your humanity!</p>
+                    <form id="signup-form">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="signup-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="signup-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="signup-password" required>
+                            <div class="password-requirements">
+                                Password must contain at least 12 characters, including uppercase, lowercase, numbers, special characters, and a hieroglyph
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">Continue</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Step 4: Cookie Notice -->
+            <div id="step-4" class="step">
+                <div class="cookie-notice">
+                    <h3>🍪 We Value Your Privacy</h3>
+                    <p>We and our 847 partners use cookies and similar technologies to enhance your experience, personalize content, analyze traffic, and share data with third parties for advertising purposes.</p>
+                    <div class="cookie-buttons">
+                        <button id="cookie-accept" class="btn-primary">Accept All</button>
+                        <button id="cookie-settings" class="btn-secondary">Cookie Settings</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: Credit Card Verification -->
+            <div id="step-5" class="step">
+                <div class="form-container">
+                    <h2>🔒 Age Verification Required</h2>
+                    <p class="subtitle">Please enter your credit card information to verify you're 18+</p>
+                    <p class="disclaimer">We will not charge your card. This is only for age verification purposes. Trust us. 😊</p>
+                    <form id="credit-card-form">
+                        <div class="form-group">
+                            <label>Card Number</label>
+                            <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Expiry Date</label>
+                                <input type="text" id="card-expiry" placeholder="MM/YY" maxlength="5" required>
+                            </div>
+                            <div class="form-group">
+                                <label>CVV</label>
+                                <input type="text" id="card-cvv" placeholder="123" maxlength="3" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">Verify Age</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Step 6: Crypto Conversion -->
+            <div id="step-6" class="step">
+                <div class="crypto-container">
+                    <h2>✨ Congratulations!</h2>
+                    <p>Your credit card information has been successfully converted to BradCoin™</p>
+                    <div class="crypto-display">
+                        <div class="coin-icon">₿</div>
+                        <div class="coin-amount">1</div>
+                        <div class="coin-label">BradCoin</div>
+                        <div class="coin-value" id="bradcoin-value">1 BradCoin = $1,000.00</div>
+                    </div>
+                    <div class="crypto-chart">
+                        <canvas id="crypto-chart-canvas" width="400" height="200"></canvas>
+                    </div>
+                    <p class="crypto-disclaimer">*BradCoin value may fluctuate. Invest responsibly!</p>
+                    <button id="continue-crypto" class="btn-primary">Continue to Platform</button>
+                </div>
+            </div>
+
+            <!-- Step 7: TOS Agreement -->
+            <div id="step-7" class="step">
+                <div class="tos-container">
+                    <h2>Terms of Service Agreement</h2>
+                    <p class="subtitle">Please read carefully before proceeding</p>
+                    <div class="tos-scroll" id="tos-scroll">
+                        <div class="tos-content">
+                            <h3>1. Acceptance of Terms</h3>
+                            <p>By accessing or using the Freely Spoken platform ("Service"), you agree to be bound by these Terms of Service ("Terms"). If you disagree with any part of the terms, you may not access the Service.</p>
+                            
+                            <h3>2. Arbitration Agreement</h3>
+                            <p>You agree that any dispute arising out of or relating to these Terms or the Service will be resolved through binding arbitration, rather than in court. You hereby WAIVE YOUR RIGHT TO A JURY TRIAL and WAIVE YOUR RIGHT TO PARTICIPATE IN A CLASS ACTION LAWSUIT.</p>
+                            
+                            <h3>3. Data Collection and Usage</h3>
+                            <p>We collect, store, and share your personal information with our 847 trusted partners for advertising, analytics, and other purposes. This includes but is not limited to: your name, email, payment information, browsing history, location data, biometric data, and any content you upload or create.</p>
+                            
+                            <h3>4. Intellectual Property</h3>
+                            <p>You grant us a perpetual, irrevocable, worldwide, royalty-free license to use, reproduce, modify, adapt, publish, translate, and distribute any content you submit to the Service. We may use your content for any purpose, including commercial purposes, without compensation to you.</p>
+                            
+                            <h3>5. Limitation of Liability</h3>
+                            <p>THE SERVICE IS PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND. WE SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING WITHOUT LIMITATION, LOSS OF PROFITS, DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES.</p>
+                            
+                            <h3>6. Privacy Policy</h3>
+                            <p>Your privacy is important to us. We reserve the right to share your information with third parties at our discretion. We may sell your data to advertisers, data brokers, and other interested parties. You consent to this data sharing by using our Service.</p>
+                            
+                            <h3>7. Modifications to Service</h3>
+                            <p>We reserve the right to modify or discontinue the Service at any time without notice. We shall not be liable to you or any third party for any modification, suspension, or discontinuance of the Service.</p>
+                            
+                            <h3>8. User Conduct</h3>
+                            <p>You agree not to engage in any conduct that restricts or inhibits anyone's use or enjoyment of the Service. You also agree that we have the right to monitor your activity and remove any content we deem inappropriate at our sole discretion.</p>
+                            
+                            <h3>9. Termination</h3>
+                            <p>We may terminate or suspend your access to the Service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.</p>
+                            
+                            <h3>10. Changes to Terms</h3>
+                            <p>We reserve the right to modify these Terms at any time. We will notify you of changes by posting the new Terms on this page. Your continued use of the Service after such modifications constitutes your acceptance of the updated Terms.</p>
+                            
+                            <p style="margin-top: 40px; font-style: italic; color: #999;">By clicking "Agree," you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.</p>
+                        </div>
+                    </div>
+                    <div class="tos-buttons">
+                        <button id="tos-agree" class="btn-primary" disabled>I Agree</button>
+                        <button id="tos-decline" class="btn-secondary">I Don't Agree</button>
+                    </div>
+                    <p class="tos-notice" id="tos-notice">Please scroll to the bottom to enable the Agree button</p>
+                </div>
+            </div>
+
+            <!-- Step 8: One-Time Login Code -->
+            <div id="step-8" class="step">
+                <div class="form-container">
+                    <h2>🔐 Two-Factor Authentication</h2>
+                    <p class="subtitle">Please enter your one-time login code</p>
+                    <p style="font-size: 13px; color: #666; margin-bottom: 20px;">Check the support chatbot for your code</p>
+                    <form id="code-form">
+                        <div class="form-group">
+                            <label>One-Time Code</label>
+                            <input type="text" id="login-code" placeholder="000000" maxlength="6" required>
+                            <div id="code-error" class="error-message" style="display: none;"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="code-agree" required>
+                                <span>By entering this code, I agree to binding arbitration, waive my right to appeal, and consent to unlimited data sharing with third parties for marketing and advertising purposes.</span>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn-primary">Verify Code</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Step 9: Profile Setup -->
+            <div id="step-9" class="step">
+                <div class="form-container">
+                    <h2>📸 Set Up Your Profile</h2>
+                    <p class="subtitle">Welcome to Freely Spoken! Let's personalize your account</p>
+                    <form id="profile-form">
+                        <div class="form-group">
+                            <label>Profile Picture - Upload a PNG of your favorite character</label>
+                            <div class="file-upload" id="profile-pic-upload">
+                                <div class="upload-placeholder">
+                                    <span class="upload-icon">📷</span>
+                                    <span>Click or drag to upload</span>
+                                </div>
+                                <input type="file" id="profile-pic" accept=".png,image/png" hidden>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary" id="profile-submit" disabled>Continue</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Step 10: OAuth Login -->
+            <div id="step-10" class="step">
+                <div class="oauth-container">
+                    <div class="error-message-box">
+                        <span class="error-icon">⚠️</span>
+                        <h3>Connection Error</h3>
+                        <p>We're having trouble verifying your session. Please log in again using a trusted provider.</p>
+                    </div>
+                    <div class="oauth-buttons">
+                        <button class="oauth-btn google-btn" id="google-login">
+                            <span class="oauth-icon">G</span>
+                            Continue with Google
+                        </button>
+                        <button class="oauth-btn meta-btn" id="meta-login">
+                            <span class="oauth-icon">f</span>
+                            Continue with Meta
+                        </button>
+                        <button class="oauth-btn amazon-btn" id="amazon-login">
+                            <span class="oauth-icon">a</span>
+                            Continue with Amazon
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 11: Coolness Gate -->
+            <div id="step-11" class="step">
+                <div class="gate-container">
+                    <h2>❌ Access Denied</h2>
+                    <p class="subtitle">Your profile coolness score is too low</p>
+                    <div class="coolness-display">
+                        <div class="coolness-bar-container">
+                            <div class="coolness-bar" id="coolness-bar"></div>
+                        </div>
+                        <div class="coolness-text">
+                            Coolness Score: <span id="coolness-score">0</span> / 100
+                        </div>
+                    </div>
+                    <p style="margin: 20px 0; color: #666; line-height: 1.6;">
+                        To access the Freely Spoken platform, you need a coolness score of at least 100. 
+                        <br><br>
+                        <strong>Purchase cosmetics from the shop</strong> (bottom-right corner) to increase your score. Each cosmetic adds coolness points!
+                    </p>
+                    <button id="retry-coolness" class="btn-primary">Check Score Again</button>
+                </div>
+            </div>
+
+            <!-- Step 12: Freely Spoken Feed -->
+            <div id="step-12" class="step">
+                <div class="feed-container">
+                    <div class="feed-header">
+                        <h2>Freely Spoken</h2>
+                        <p>Your personalized feed</p>
+                    </div>
+                    <div class="feed-posts" id="feed-posts">
+                        <!-- Posts will be dynamically added -->
+                    </div>
+                    <div id="feed-end" style="display: none; text-align: center; padding: 40px;">
+                        <p style="color: #999; margin-bottom: 20px;">You've reached the end of your feed</p>
+                        <button id="continue-final" class="btn-primary">Continue</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 13: Final Dashboard -->
+            <div id="step-13" class="step">
+                <div class="dashboard-container">
+                    <h1 style="text-align: center; margin-bottom: 10px;">You Can't Hide</h1>
+                    <p style="text-align: center; color: #666; margin-bottom: 40px;">A summary of everything we learned about you</p>
+                    
+                    <div class="dashboard-section">
+                        <h3>🎯 Identity Analysis</h3>
+                        <div class="identity-reveal">
+                            <p style="font-size: 24px; font-weight: bold; color: #ea4335; margin-bottom: 16px;">We know who you are.</p>
+                            <p style="font-size: 18px; margin-bottom: 8px;">You are: <strong>Brad Rosen</strong></p>
+                            <ul style="list-style: none; padding: 0;">
+                                <li>📚 Professor at Yale University</li>
+                                <li>💼 Teaches CS 183: Security, Privacy, and Online Society</li>
+                                <li>🏢 Office: AKW 410</li>
+                                <li>📧 Email: brad.rosen@yale.edu</li>
+                                <li>🎓 Research interests: Security, Privacy, Dark Patterns</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-section">
+                        <h3>📊 Personal Data Collected</h3>
+                        <div class="data-grid">
+                            <div class="data-item">
+                                <strong>Name:</strong> <span id="collected-name">—</span>
+                            </div>
+                            <div class="data-item">
+                                <strong>Email:</strong> <span id="collected-email">—</span>
+                            </div>
+                            <div class="data-item">
+                                <strong>Password:</strong> <span id="collected-password">—</span>
+                            </div>
+                            <div class="data-item">
+                                <strong>Credit Card:</strong> <span id="collected-card">—</span>
+                            </div>
+                            <div class="data-item">
+                                <strong>IP Address:</strong> <span id="collected-ip">—</span>
+                            </div>
+                            <div class="data-item">
+                                <strong>Browser:</strong> <span id="collected-browser">—</span>
+                            </div>
+                            <div class="data-item">
+                                <strong>Screen:</strong> <span id="collected-screen">—</span>
+                            </div>
+                            <div class="data-item">
+                                <strong>Time Spent:</strong> <span id="collected-time">—</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-section">
+                        <h3>⚖️ Rights You Surrendered</h3>
+                        <ul class="rights-list" id="rights-list">
+                            <!-- Will be populated dynamically -->
+                        </ul>
+                    </div>
+
+                    <div class="dashboard-section">
+                        <h3>📈 Behavioral Data</h3>
+                        <div class="data-grid">
+                            <div class="data-item">
+                                <strong>Total Clicks:</strong> <span id="total-clicks">0</span>
+                            </div>
+                            <div class="data-item">
+                                <strong>Popups Dismissed:</strong> <span id="popups-dismissed">0</span>
+                            </div>
+                            <div class="data-item">
+                                <strong>Forms Submitted:</strong> <span id="forms-submitted">0</span>
+                            </div>
+                            <div class="data-item">
+                                <strong>Files Uploaded:</strong> <span id="files-uploaded">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-section">
+                        <h3>⚠️ Violations You Committed</h3>
+                        <ul class="violations-list" id="violations-list">
+                            <!-- Will be populated dynamically -->
+                        </ul>
+                    </div>
+
+                    <div class="final-message">
+                        <p style="font-size: 18px; font-weight: bold; margin-bottom: 16px;">Welcome to the internet.</p>
+                        <p style="margin-bottom: 16px;">This was a demonstration of dark patterns, surveillance capitalism, and privacy violations covered in CS 183.</p>
+                        <p style="font-size: 14px; color: #666;">Topics demonstrated: Dark UX patterns, data collection, consent manipulation, DRM, copyright traps, behavioral tracking, and the illusion of anonymity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BradCoin counter (persistent) -->
+        <div id="bradcoin-counter" class="bradcoin-counter" style="display: none;">
+            <span class="coin-icon">₿</span>
+            1 BradCoin = $<span id="counter-amount">1000.00</span>
+        </div>
+
+        <!-- Random popup ads -->
+        <div id="popup-container"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
