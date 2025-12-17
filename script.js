@@ -821,8 +821,11 @@ function formatExpiry(e) {
 // Random Popup Ads
 function startRandomPopups() {
     const popupImages = [
-        'https://imgflip.com/i/aehs88',
-        'https://imgflip.com/i/aehtbp'
+        'https://i.imgflip.com/i/aehs88.jpg',
+        'https://i.imgflip.com/i/aehtbp.jpg',
+        'https://i.imgflip.com/i/af5vvj.jpg',
+        'https://i.imgflip.com/i/af5u4r.jpg',
+        'https://i.imgflip.com/i/af5ubw.jpg'
     ];
     
     function createPopup() {
@@ -833,8 +836,8 @@ function startRandomPopups() {
         
         popup.innerHTML = `
             <button class="popup-close" onclick="this.parentElement.remove()">×</button>
-            <p style="text-align: center; margin-bottom: 12px; font-weight: bold;">Class Meme Alert! 🎓</p>
-            <p style="font-size: 12px; color: #666;">Check out these dank memes from CS 183!</p>
+            <p style="text-align: center; margin-bottom: 12px; font-weight: bold;">Partnered content</p>
+            <p style="font-size: 12px; color: #666;"> <img src="https://i.imgflip.com/af5v8v.jpg" alt="Is this a pidgeon?">  </p>
         `;
         
         document.getElementById('popup-container').appendChild(popup);
@@ -1419,8 +1422,8 @@ function startRandomPopups() {
         
         popup.innerHTML = `
             <button class="popup-close" onclick="this.parentElement.remove(); trackingData.popupsDismissed++;">×</button>
-            <p style="text-align: center; margin-bottom: 12px; font-weight: bold;">Class Meme Alert! 🎓</p>
-            <p style="font-size: 12px; color: #666;">Check out these dank memes from CS 183!</p>
+            <p style="text-align: center; margin-bottom: 12px; font-weight: bold;">Partnered Content</p>
+            <p style="font-size: 12px; color: #666;"> <img src="https://i.imgflip.com/aehs88.jpg" alt="Waiting">  </p>
         `;
         
         document.getElementById('popup-container').appendChild(popup);
