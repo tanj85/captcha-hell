@@ -19,10 +19,10 @@ let trackingData = {
 
 // Cosmetics
 const cosmetics = [
-    { id: 'sunglasses', name: '😎 Cool Sunglasses', price: 450, coolness: 30, effect: 'filter: brightness(1.1);', visual: 'sunglasses' },
-    { id: 'hat', name: '🎩 Trendy Hat', price: 600, coolness: 25, effect: 'filter: saturate(1.3);', visual: 'hat' },
-    { id: 'glow', name: '✨ Neon Glow', price: 800, coolness: 40, effect: 'box-shadow: 0 0 20px #4285f4;', visual: null },
-    { id: 'border', name: '🌈 RGB Border', price: 400, coolness: 20, effect: 'border: 3px solid; border-image: linear-gradient(45deg, red, yellow, green, blue) 1;', visual: null }
+    { id: 'sunglasses', name: 'Cool Sunglasses', price: 450, coolness: 30, effect: 'filter: brightness(1.1);', visual: 'sunglasses' },
+    { id: 'hat', name: 'Black Hat', price: 600, coolness: 25, effect: 'filter: saturate(1.3);', visual: 'hat' },
+    { id: 'glow', name: 'Neon Poop', price: 800, coolness: 40, effect: 'box-shadow: 0 0 20px #4285f4;', visual: null },
+    { id: 'border', name: 'RGB Lights', price: 400, coolness: 20, effect: 'border: 3px solid; border-image: linear-gradient(45deg, red, yellow, green, blue) 1;', visual: null }
 ];
 
 let purchasedCosmetics = [];
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatbot = document.getElementById('chatbot');
     chatbot.addEventListener('contextmenu', (e) => {
         e.preventDefault();
-        showSuccess('Nice try! 😏');
+        showSuccess('Nice try!');
         return false;
     });
     
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!devtoolsOpen) {
                 devtoolsOpen = true;
                 console.clear();
-                console.log('%cHey! Stop trying to cheat! 😤', 'font-size: 24px; color: red; font-weight: bold;');
+                console.log('%cHey! Stop trying to cheat!', 'font-size: 24px; color: red; font-weight: bold;');
                 console.log('%cThe code is hidden for a reason...', 'font-size: 16px; color: orange;');
             }
         } else {
@@ -286,7 +286,7 @@ function initializeSteps() {
     
     document.getElementById('cookie-settings').addEventListener('click', () => {
         // Dark pattern: settings button also just continues
-        alert('There are no settings. You must accept all cookies. 😈');
+        alert('There are no settings. You must accept all cookies.');
     });
     
     // Step 4: Credit Card Form
@@ -1056,12 +1056,12 @@ function showHackOffer() {
     popup.className = 'hack-popup';
     popup.innerHTML = `
         <div class="hack-header">
-            <h3>🔓 Bypass Available</h3>
+            <h3>Bypass Available</h3>
             <p style="margin: 8px 0 0 0; font-size: 14px; opacity: 0.9;">Exclusive offer from the Support Team</p>
         </div>
         <div class="hack-content">
             <div class="hack-warning">
-                <p><strong>⚠️ Warning:</strong> This tool bypasses DRM protections and violates the Terms of Service. Use at your own risk.</p>
+                <p><strong>Warning:</strong> This tool bypasses DRM protections and violates the Terms of Service. Use at your own risk.</p>
             </div>
             <p style="text-align: center; color: #666; margin-bottom: 20px;">
                 Instantly unlock all cosmetics and gain 100+ coolness points
@@ -1069,7 +1069,7 @@ function showHackOffer() {
             <div class="hack-price">
                 $${hackPrice} USD
                 <span class="hack-price-small">Current BradCoin value: $${bradCoin.toFixed(2)}</span>
-                ${!canAfford ? '<span class="hack-price-small" style="color: #ea4335; display: block; margin-top: 8px;">⚠️ Insufficient funds - Try not to spend on useless stuff next time!</span>' : ''}
+                ${!canAfford ? '<span class="hack-price-small" style="color: #ea4335; display: block; margin-top: 8px;">Insufficient funds - Try not to spend on useless stuff next time!</span>' : ''}
             </div>
             <div class="hack-buttons">
                 <button class="hack-decline" onclick="closeHackOffer()">No Thanks</button>
@@ -1129,7 +1129,7 @@ function acceptHack() {
     updateCosmeticsShop();
     
     closeHackOffer();
-    showSuccess('All cosmetics unlocked! 🎉');
+    showSuccess('All cosmetics unlocked!');
     
     // Automatically proceed to next step - no need to click retry button
     setTimeout(() => {
@@ -1215,21 +1215,21 @@ function initializeFeed() {
             type: 'rage',
             user: 'ControversialTakes',
             time: '2h ago',
-            content: 'Hot take: Pineapple on pizza is actually a hate crime. If you disagree, you\'re part of the problem. This is the hill I will die on. 🍕❌🍍',
+            content: 'Hot take: Pineapple on pizza is actually a hate crime. If you disagree, you\'re part of the problem. This is the hill I will die on.',
             avatar: 'C'
         },
         {
             type: 'uplifting',
             user: 'WholesomeMemes',
             time: '1h ago',
-            content: 'Just saw someone help an elderly person cross the street and then a dog gave them a high five. Faith in humanity: restored. 🐕✨',
+            content: 'Just saw someone help an elderly person cross the street and then a dog gave them a high five. Faith in humanity: restored.',
             avatar: 'W'
         },
         {
             type: 'rage',
             user: 'TechBroOpinions',
             time: '30m ago',
-            content: 'People who use light mode are objectively wrong and probably sociopaths. I don\'t make the rules. Dark mode or delete your account. 🌙',
+            content: 'People who use light mode are objectively wrong and probably sociopaths. I don\'t make the rules. Dark mode or delete your account.',
             avatar: 'T'
         }
     ];
@@ -1259,9 +1259,9 @@ function initializeFeed() {
                 </div>
                 <div class="post-content">${post.content}</div>
                 <div class="post-actions">
-                    <span class="post-action">👍 Like</span>
-                    <span class="post-action">💬 Comment</span>
-                    <span class="post-action">↗️ Share</span>
+                    <span class="post-action">Like</span>
+                    <span class="post-action">Comment</span>
+                    <span class="post-action">Share</span>
                 </div>
             `;
             feedPosts.appendChild(postEl);
@@ -1299,12 +1299,12 @@ function showCopyrightViolationPopup() {
     popup.className = 'hack-popup';
     popup.innerHTML = `
         <div class="hack-header" style="background: linear-gradient(135deg, #ea4335 0%, #c5221f 100%);">
-            <h3>⚠️ Copyright Violation Detected</h3>
+            <h3>Copyright Violation Detected</h3>
             <p style="margin: 8px 0 0 0; font-size: 14px; opacity: 0.9;">Legal Notice</p>
         </div>
         <div class="hack-content">
             <div class="hack-warning">
-                <p><strong>⚠️ Notice:</strong> Our automated systems have detected that your profile picture may contain copyrighted material.</p>
+                <p><strong>Notice:</strong> Our automated systems have detected that your profile picture may contain copyrighted material.</p>
             </div>
             <p style="text-align: center; color: #666; margin: 20px 0; line-height: 1.6;">
                 Using copyrighted characters as profile pictures may violate intellectual property rights. 
@@ -1390,7 +1390,7 @@ async function populateDashboard() {
     const violationsList = document.getElementById('violations-list');
     trackingData.violations.forEach(violation => {
         const li = document.createElement('li');
-        li.textContent = '⚠️ ' + violation;
+        li.textContent = violation;
         violationsList.appendChild(li);
     });
 }
@@ -1444,7 +1444,7 @@ async function showIPTrackingPopup() {
     popup.innerHTML = `
         <button class="popup-close" onclick="this.parentElement.remove(); trackingData.popupsDismissed++;">×</button>
         <div style="padding: 10px; text-align: center;">
-            <h3 style="margin: 0 0 12px 0; color: #ea4335;">🌐 Security Notice</h3>
+            <h3 style="margin: 0 0 12px 0; color: #ea4335;">Security Notice</h3>
             <p style="margin-bottom: 12px; font-size: 13px;">We've detected your connection:</p>
             <div style="background: #f9f9f9; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
                 <p style="margin: 4px 0; font-size: 13px;"><strong>IP Address:</strong> ${ip}</p>
