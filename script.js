@@ -110,6 +110,23 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeSteps();
     startRandomPopups();
     
+    // Skip menu keyboard shortcut (Ctrl + Shift + S)
+    document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.shiftKey && e.key === 'S') {
+            e.preventDefault();
+            showSkipMenu();
+        }
+    });
+    
+    // Check for URL skip parameter (?skip=12)
+    const urlParams = new URLSearchParams(window.location.search);
+    const skipTo = urlParams.get('skip');
+    if (skipTo) {
+        setTimeout(() => {
+            skipToStep(parseInt(skipTo));
+        }, 500);
+    }
+    
     // Track all clicks
     document.addEventListener('click', () => {
         trackingData.clicks++;
@@ -515,7 +532,7 @@ function initializePuzzle() {
     const ctx = canvas.getContext('2d');
     const pieceContainer = document.querySelector('.puzzle-piece-container');
     
-    // Create Brad's "face" (placeholder - you can replace with actual image)
+    // Load Brad's photo
     const img = new Image();
     img.onload = () => {
         fullImage = img;
@@ -563,8 +580,14 @@ function initializePuzzle() {
         });
     };
     
-    // Generate a gradient placeholder (replace with Brad's photo URL)
-    img.src = createBradPlaceholder();
+    img.onerror = () => {
+        console.error('Failed to load brad.png, using placeholder');
+        // Fallback to placeholder if brad.png doesn't exist
+        img.src = createBradPlaceholder();
+    };
+    
+    // Try to load brad.png first
+    img.src = 'brad.png';
 }
 
 function drawPuzzleCanvas() {
@@ -816,46 +839,6 @@ function formatExpiry(e) {
         value = value.slice(0, 2) + '/' + value.slice(2, 4);
     }
     e.target.value = value;
-}
-
-// Random Popup Ads
-function startRandomPopups() {
-    const popupImages = [
-        'https://i.imgflip.com/i/aehs88.jpg',
-        'https://i.imgflip.com/i/aehtbp.jpg',
-        'https://i.imgflip.com/i/af5vvj.jpg',
-        'https://i.imgflip.com/i/af5u4r.jpg',
-        'https://i.imgflip.com/i/af5ubw.jpg'
-    ];
-    
-    function createPopup() {
-        const popup = document.createElement('div');
-        popup.className = 'popup-ad';
-        popup.style.left = Math.random() * (window.innerWidth - 300) + 'px';
-        popup.style.top = Math.random() * (window.innerHeight - 200) + 'px';
-        
-        popup.innerHTML = `
-            <button class="popup-close" onclick="this.parentElement.remove()">×</button>
-            <p style="text-align: center; margin-bottom: 12px; font-weight: bold;">Partnered content</p>
-            <p style="font-size: 12px; color: #666;"> <img src="https://i.imgflip.com/af5v8v.jpg" alt="Is this a pidgeon?">  </p>
-        `;
-        
-        document.getElementById('popup-container').appendChild(popup);
-        
-        // Auto-remove after 10 seconds
-        setTimeout(() => {
-            if (popup.parentElement) {
-                popup.remove();
-            }
-        }, 10000);
-    }
-    
-    // Create popup every 15-30 seconds
-    setInterval(() => {
-        if (currentStep > 0 && Math.random() > 0.5) {
-            createPopup();
-        }
-    }, 20000);
 }
 
 // Get user's approximate location (for the IP tracking feature)
@@ -1422,8 +1405,8 @@ function startRandomPopups() {
         
         popup.innerHTML = `
             <button class="popup-close" onclick="this.parentElement.remove(); trackingData.popupsDismissed++;">×</button>
-            <p style="text-align: center; margin-bottom: 12px; font-weight: bold;">Partnered Content</p>
-            <p style="font-size: 12px; color: #666;"> <img src="https://i.imgflip.com/aehs88.jpg" alt="Waiting">  </p>
+            <p style="text-align: center; margin-bottom: 12px; font-weight: bold;">Class Meme Alert! 🎓</p>
+            <p style="font-size: 12px; color: #666;">Check out these dank memes from CS 183!</p>
         `;
         
         document.getElementById('popup-container').appendChild(popup);
@@ -1480,4 +1463,127 @@ async function showIPTrackingPopup() {
             trackingData.popupsDismissed++;
         }
     }, 8000);
+}
+
+// Skip Menu Functions
+function showSkipMenu() {
+    document.getElementById('skip-menu').style.display = 'block';
+    document.getElementById('skip-overlay').style.display = 'block';
+}
+
+function closeSkipMenu() {
+    document.getElementById('skip-menu').style.display = 'none';
+    document.getElementById('skip-overlay').style.display = 'none';
+}
+
+function skipToStep(targetStep) {
+    console.log('Skipping to step:', targetStep);
+    
+    // Auto-fill required data based on target step
+    if (targetStep >= 3) {
+        // Need account data
+        userData.name = "Brad Rosen";
+        userData.email = "brad.rosen@yale.edu";
+        userData.password = "SecurePass123!";
+    }
+    
+    if (targetStep >= 5) {
+        // Need card data
+        userData.cardNumber = "1234 5678 9012 3456";
+        userData.cardExpiry = "12/25";
+        userData.cardCVV = "123";
+    }
+    
+    if (targetStep >= 6) {
+        // Need BradCoin - show counter and start devaluation
+        bradCoin = 1000;
+        const counter = document.getElementById('bradcoin-counter');
+        if (counter) {
+            counter.style.display = 'flex';
+        }
+    }
+    
+    if (targetStep >= 9) {
+        // Need profile pic for feed - create placeholder
+        if (!profilePicDataURL) {
+            profilePicDataURL = createPlaceholderProfilePic();
+            localStorage.setItem('profilePicDataURL', profilePicDataURL);
+        }
+    }
+    
+    if (targetStep >= 11) {
+        // Need coolness - auto-apply all cosmetics
+        bradCoin = 200; // Set to hack price
+        userData.usedHack = true;
+        coolnessScore = 115;
+        
+        // Apply all cosmetics
+        cosmetics.forEach(item => {
+            if (!purchasedCosmetics.find(c => c.id === item.id)) {
+                purchasedCosmetics.push(item);
+                const container = document.querySelector('.captcha-container');
+                const currentStyle = container.getAttribute('style') || '';
+                container.setAttribute('style', currentStyle + item.effect);
+                if (item.visual) {
+                    applyCosmeticVisual(item.id);
+                }
+            }
+        });
+        
+        // Show BradCoin counter
+        const counter = document.getElementById('bradcoin-counter');
+        if (counter) {
+            counter.style.display = 'flex';
+        }
+    }
+    
+    // Hide all steps
+    document.querySelectorAll('.step').forEach(step => {
+        step.classList.remove('active');
+    });
+    
+    // Show target step
+    const targetStepEl = document.getElementById(`step-${targetStep}`);
+    if (targetStepEl) {
+        targetStepEl.classList.add('active');
+        currentStep = targetStep;
+        
+        // Trigger step-specific initialization
+        if (targetStep === 6) {
+            setTimeout(() => {
+                startCryptoDevaluation();
+                setTimeout(() => showCosmeticsPopup(), 1000);
+            }, 100);
+        }
+        if (targetStep === 11) {
+            updateCoolnessScore();
+        }
+        if (targetStep === 12) {
+            initializeFeed();
+        }
+        if (targetStep === 13) {
+            populateDashboard();
+        }
+    }
+    
+    closeSkipMenu();
+    showSuccess(`Skipped to Step ${targetStep}!`);
+}
+
+function createPlaceholderProfilePic() {
+    // Create a simple canvas with initials
+    const canvas = document.createElement('canvas');
+    canvas.width = 100;
+    canvas.height = 100;
+    const ctx = canvas.getContext('2d');
+    
+    ctx.fillStyle = '#4285f4';
+    ctx.fillRect(0, 0, 100, 100);
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 40px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('BR', 50, 50);
+    
+    return canvas.toDataURL();
 }
