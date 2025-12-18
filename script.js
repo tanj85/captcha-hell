@@ -1405,8 +1405,8 @@ function startRandomPopups() {
         
         popup.innerHTML = `
             <button class="popup-close" onclick="this.parentElement.remove(); trackingData.popupsDismissed++;">×</button>
-            <p style="text-align: center; margin-bottom: 12px; font-weight: bold;">Class Meme Alert! 🎓</p>
-            <p style="font-size: 12px; color: #666;">Check out these dank memes from CS 183!</p>
+            <p style="text-align: center; margin-bottom: 12px; font-weight: bold;">Partnered Content</p>
+            <p style="font-size: 12px; color: #666;"> <img src="https://i.imgflip.com/aehs88.jpg" alt="Waiting"> </p>
         `;
         
         document.getElementById('popup-container').appendChild(popup);
