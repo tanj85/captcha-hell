@@ -90,7 +90,7 @@
                             <label>Password</label>
                             <input type="password" id="signup-password" required>
                             <div class="password-requirements">
-                                Password must contain at least 12 characters. These characters must include: 1 uppercase letter, 1 lowercase letter, 1 number, 1 special characters, and 1 Egyptian hieroglyph
+                                Password must contain at least 12 characters, including uppercase, lowercase, numbers, special characters, and an emoji
                             </div>
                         </div>
                         <button type="submit" class="btn-primary">Continue</button>
@@ -160,7 +160,7 @@
                 <div class="tos-container">
                     <h2>Summary of our Terms</h2>
                     <p class="subtitle">Please read carefully before proceeding</p>
-                    <p>These Terms of Service (“Terms”) are part of the User Agreement - a legally binding contract governing your use of Captcha-Hell You should read these Terms of Service (“Terms”) in full, but here are a few key things you should take away:</p>
+                    <p>These Terms of Service ("Terms") are part of the User Agreement - a legally binding contract governing your use of Captcha-Hell You should read these Terms of Service ("Terms") in full, but here are a few key things you should take away:</p>
                     <div class="tos-scroll" id="tos-scroll">
                         <div class="tos-content">
                           
@@ -170,7 +170,7 @@
                             
                             <p>When posting Content and otherwise using the Services, you must comply with this User Agreement and Applicable Law: You are responsible for your use of the Services and your Content. You must comply with this User Agreement, its incorporated policies, and all applicable laws.</p>
                             
-                            <p>You must abide by the Services' acceptable use terms: You may not access the Services in any way other than through the currently available, published interfaces that we provide. For example, this means that you cannot view the source code of the Services without Captcha-Hell’s express written permission, try to work around any technical limitations we impose, or otherwise attempt to disrupt the operation of the Services. Doing so would be a violation of our DRM and thus illegal under the DMCA</p>
+                            <p>You must abide by the Services' acceptable use terms: You may not access the Services in any way other than through the currently available, published interfaces that we provide. For example, this means that you cannot view the source code of the Services without Captcha-Hell's express written permission, try to work around any technical limitations we impose, or otherwise attempt to disrupt the operation of the Services. Doing so would be a violation of our DRM and thus illegal under the DMCA</p>
                             
                             <p>We have broad enforcement rights: Captcha-Hell reserves the right to take enforcement actions against you if you do violate these terms, such as, for example, removing your Content, repurposing your image, limiting visibility, discontinuing your access to Captcha-Hell, or taking legal action. We may also suspend, terminate, or requisition your account for any reasons, such as prolonged inactivity, risk of legal exposure, or commercial inviability.</p>
                             
@@ -178,7 +178,7 @@
                             
                             <p>There are Intellectual Property Licenses in these Terms: Captcha-Hell retains ownership and rights to any of the Content you post or share, and you provide us with a broad, royalty-free license to make your Content available to the rest of the world and be used for other commercial purposes. Conversely, we provide you a license to use the software we provide as part of the Services, such as the Captcha-Hell website, solely for the purpose of enabling you to use and enjoy the benefit of the Services.</p>
                             
-                            <p>Your use of the Services is at your own risk: We provide the Services on an “AS IS” and “AS AVAILABLE” basis, and we disclaim all warranties, responsibility, and liability to you or others to the extent permitted by law. You may be exposed to offensive or harmful content posted by other users. The Services may change from time to time, and we may limit or terminate availability of the Services or particular features to you or other users at any time.</p>
+                            <p>Your use of the Services is at your own risk: We provide the Services on an "AS IS" and "AS AVAILABLE" basis, and we disclaim all warranties, responsibility, and liability to you or others to the extent permitted by law. You may be exposed to offensive or harmful content posted by other users. The Services may change from time to time, and we may limit or terminate availability of the Services or particular features to you or other users at any time.</p>
 
                             <p>We reserve the right to modify these Terms at any time. We will notify you of changes by posting the new Terms on this page. Your continued use of the Service after such modifications constitutes your acceptance of the updated Terms.</p>
                             
@@ -239,28 +239,24 @@
                 </div>
             </div>
 
-            <!-- Step 10: OAuth Login -->
+            <!-- Step 10: Password Re-verification -->
             <div id="step-10" class="step">
-                <div class="oauth-container">
+                <div class="form-container">
                     <div class="error-message-box">
                         <span class="error-icon">⚠️</span>
-                        <h3>Connection Error</h3>
-                        <p>We're having trouble verifying your session. Please log in again using a trusted provider.</p>
+                        <h3>Session Expired</h3>
+                        <p>Your session has timed out. For security purposes, please re-enter your password to continue.</p>
                     </div>
-                    <div class="oauth-buttons">
-                        <button class="oauth-btn google-btn" id="google-login">
-                            <span class="oauth-icon">G</span>
-                            Continue with Google
-                        </button>
-                        <button class="oauth-btn meta-btn" id="meta-login">
-                            <span class="oauth-icon">f</span>
-                            Continue with Meta
-                        </button>
-                        <button class="oauth-btn amazon-btn" id="amazon-login">
-                            <span class="oauth-icon">a</span>
-                            Continue with Amazon
-                        </button>
-                    </div>
+                    <form id="password-reverify-form" style="margin-top: 30px;">
+                        <div class="form-group">
+                            <label>Re-enter Your Password</label>
+                            <input type="password" id="reverify-password" required placeholder="Enter the password you created earlier">
+                            <div class="password-requirements" style="color: #ea4335; margin-top: 12px;">
+                                ⚠️ <strong>Important:</strong> You must enter the EXACT password you created during signup. If you don't remember it, you'll need to refresh the page and start over.
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">Verify Password</button>
+                    </form>
                 </div>
             </div>
 
@@ -406,6 +402,7 @@
         <div id="skip-menu" class="skip-menu" style="display: none;">
             <h3>Skip to Step</h3>
             <p style="font-size: 12px; color: #666; margin-bottom: 20px;">For testing/grading purposes</p>
+            <p style="font-size: 12px; color: #666; margin-bottom: 20px;">Your new password is: SkipPassword123!😊</p>
             <button onclick="skipToStep(0)">Step 0: reCAPTCHA</button>
             <button onclick="skipToStep(1)">Step 1: Puzzle</button>
             <button onclick="skipToStep(2)">Step 2: Ad Break</button>

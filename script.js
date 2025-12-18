@@ -6,6 +6,7 @@ let beemovieLine = 0;
 let coolnessScore = 0;
 let startTime = Date.now();
 let profilePicDataURL = localStorage.getItem('profilePicDataURL') || null; // Store profile picture for later use
+let lastStepChangeTime = 0; // Track when last step change happened
 
 // Tracking
 let trackingData = {
@@ -19,10 +20,10 @@ let trackingData = {
 
 // Cosmetics
 const cosmetics = [
-    { id: 'sunglasses', name: 'Cool Sunglasses', price: 450, coolness: 30, effect: 'filter: brightness(1.1);', visual: 'sunglasses' },
-    { id: 'hat', name: 'Black Hat', price: 600, coolness: 25, effect: 'filter: saturate(1.3);', visual: 'hat' },
-    { id: 'glow', name: 'Neon Poop', price: 800, coolness: 40, effect: 'box-shadow: 0 0 20px #4285f4;', visual: null },
-    { id: 'border', name: 'RGB Lights', price: 400, coolness: 20, effect: 'border: 3px solid; border-image: linear-gradient(45deg, red, yellow, green, blue) 1;', visual: null }
+    { id: 'sunglasses', name: '😎 Cool Sunglasses', price: 450, coolness: 30, effect: 'filter: brightness(1.1);', visual: 'sunglasses' },
+    { id: 'hat', name: '🎩 Trendy Hat', price: 600, coolness: 25, effect: 'filter: saturate(1.3);', visual: 'hat' },
+    { id: 'glow', name: '✨ Neon Glow', price: 800, coolness: 40, effect: 'box-shadow: 0 0 20px #4285f4;', visual: null },
+    { id: 'border', name: '🌈 RGB Border', price: 400, coolness: 20, effect: 'border: 3px solid; border-image: linear-gradient(45deg, red, yellow, green, blue) 1;', visual: null }
 ];
 
 let purchasedCosmetics = [];
@@ -254,9 +255,48 @@ function initializeSteps() {
     const signupForm = document.getElementById('signup-form');
     signupForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        userData.name = document.getElementById('signup-name').value;
-        userData.email = document.getElementById('signup-email').value;
-        userData.password = document.getElementById('signup-password').value;
+        
+        const name = document.getElementById('signup-name').value;
+        const email = document.getElementById('signup-email').value;
+        const password = document.getElementById('signup-password').value;
+        
+        // Validate password requirements
+        const hasMinLength = password.length >= 12;
+        const hasUppercase = /[A-Z]/.test(password);
+        const hasLowercase = /[a-z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+        const hasEmoji = /[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/u.test(password);
+        
+        if (!hasMinLength) {
+            showSuccess('❌ Password must be at least 12 characters!');
+            return;
+        }
+        if (!hasUppercase) {
+            showSuccess('❌ Password must contain an uppercase letter!');
+            return;
+        }
+        if (!hasLowercase) {
+            showSuccess('❌ Password must contain a lowercase letter!');
+            return;
+        }
+        if (!hasNumber) {
+            showSuccess('❌ Password must contain a number!');
+            return;
+        }
+        if (!hasSpecial) {
+            showSuccess('❌ Password must contain a special character!');
+            return;
+        }
+        if (!hasEmoji) {
+            showSuccess('❌ Password must contain an emoji! (Try 😊 or 🔥)');
+            return;
+        }
+        
+        // All validations passed!
+        userData.name = name;
+        userData.email = email;
+        userData.password = password;
         
         // Store in localStorage
         localStorage.setItem('userData', JSON.stringify(userData));
@@ -274,8 +314,8 @@ function initializeSteps() {
                 showIPTrackingPopup();
             }, 2000);
             
-            setTimeout(nextStep, 800);
-        }, 1500);
+            setTimeout(nextStep, 200);
+        }, 1000);
     });
     
     // Step 3: Cookie Notice
@@ -312,8 +352,8 @@ function initializeSteps() {
         setTimeout(() => {
             hideLoading();
             showSuccess('Age verified! Converting to BradCoin...');
-            setTimeout(nextStep, 1200);
-        }, 2000);
+            setTimeout(nextStep, 500);
+        }, 1000);
     });
     
     // Step 5: Crypto Conversion
@@ -421,17 +461,60 @@ function initializeSteps() {
         }, 1500);
     });
     
-    // Step 9: OAuth Login
-    document.getElementById('google-login').addEventListener('click', () => {
-        handleOAuthLogin('Google');
-    });
-    
-    document.getElementById('meta-login').addEventListener('click', () => {
-        handleOAuthLogin('Meta');
-    });
-    
-    document.getElementById('amazon-login').addEventListener('click', () => {
-        handleOAuthLogin('Amazon');
+    // Step 10: Password Re-verification
+    const passwordReverifyForm = document.getElementById('password-reverify-form');
+    passwordReverifyForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const enteredPassword = document.getElementById('reverify-password').value;
+        const correctPassword = userData.password;
+        
+        if (enteredPassword === correctPassword) {
+            // Correct password!
+            trackingData.formsSubmitted++;
+            
+            showLoading();
+            setTimeout(() => {
+                hideLoading();
+                showSuccess('Password verified! ✓');
+                setTimeout(nextStep, 200);
+            }, 1000);
+        } else {
+            // Wrong password - force restart
+            showSuccess('Incorrect password!');
+            
+            setTimeout(() => {
+                const modal = document.createElement('div');
+                modal.className = 'hack-overlay';
+                modal.style.zIndex = '9999';
+                
+                const popup = document.createElement('div');
+                popup.className = 'hack-popup';
+                popup.style.zIndex = '10000';
+                popup.innerHTML = `
+                    <div class="hack-header" style="background: linear-gradient(135deg, #ea4335 0%, #c5221f 100%);">
+                        <h3>Authentication Failed</h3>
+                    </div>
+                    <div class="hack-content">
+                        <p style="text-align: center; color: #666; margin: 20px 0; line-height: 1.6;">
+                            The password you entered does not match our records.
+                            <br><br>
+                            <strong>You must refresh the page and start over.</strong>
+                            <br><br>
+                            This time, make sure to remember your password or write it down!
+                        </p>
+                        <div class="hack-buttons">
+                            <button class="hack-accept" onclick="location.reload()" style="width: 100%;">
+                                Refresh Page & Start Over
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                document.body.appendChild(popup);
+            }, 1500);
+        }
     });
     
     // Step 11: Coolness Gate
@@ -439,10 +522,10 @@ function initializeSteps() {
         updateCoolnessScore();
         
         if (coolnessScore >= 100) {
-            showSuccess('Coolness requirement met!');
+            showSuccess('Profile requirement met!');
             setTimeout(nextStep, 1000);
         } else {
-            showSuccess(`Still need ${100 - coolnessScore} more coolness points!`);
+            showSuccess(`Still need ${100 - coolnessScore} more profile points!`);
             
             // Only show hack offer if not already shown and user hasn't already used it
             if (!userData.hackOffered && !userData.usedHack) {
@@ -459,10 +542,35 @@ function initializeSteps() {
 }
 
 function nextStep() {
+    // Extensive logging to debug
+    const now = Date.now();
+    const timeSinceLastCall = now - lastStepChangeTime;
+    
+    console.log('=== nextStep called ===');
+    console.log('Current time:', now);
+    console.log('Last step change time:', lastStepChangeTime);
+    console.log('Time since last call:', timeSinceLastCall, 'ms');
+    console.log('Current step:', currentStep);
+    
+    // Debounce check
+    if (timeSinceLastCall < 3000 && lastStepChangeTime !== 0) {
+        console.log('BLOCKED: Too soon! Need to wait', 500 - timeSinceLastCall, 'more ms');
+        return;
+    }
+    
+    console.log('ALLOWED: Proceeding with step change');
+    lastStepChangeTime = now;
+    console.log('Updated lastStepChangeTime to:', lastStepChangeTime);
+    
     // Get current step element
     const current = document.getElementById(`step-${currentStep}`);
     
     if (current) {
+        // CRITICAL: Increment currentStep IMMEDIATELY before setTimeout
+        const nextStepNumber = currentStep + 1;
+        currentStep = nextStepNumber;
+        console.log('Immediately incremented currentStep to:', currentStep);
+        
         // Add exit animation
         current.classList.add('exiting');
         
@@ -470,9 +578,9 @@ function nextStep() {
         setTimeout(() => {
             current.classList.remove('active', 'exiting');
             
-            // Show next step
-            currentStep++;
+            // Show next step (using the already-incremented currentStep)
             const next = document.getElementById(`step-${currentStep}`);
+            console.log('Showing step:', currentStep);
             
             if (next) {
                 next.classList.add('active');
@@ -502,6 +610,7 @@ function nextStep() {
     } else {
         // No current step, just show the next one
         currentStep++;
+        console.log('No current step, advancing to:', currentStep);
         const next = document.getElementById(`step-${currentStep}`);
         
         if (next) {
@@ -520,6 +629,8 @@ function nextStep() {
             }
         }
     }
+    
+    console.log('=== nextStep finished ===\n');
 }
 
 // Brad Face Puzzle
@@ -688,7 +799,7 @@ function makePuzzlePieceDraggable(element, piece) {
                 // Check if all pieces are placed
                 if (placedPieces === puzzlePieces.length) {
                     setTimeout(() => {
-                        showSuccess('Puzzle completed! 🎉');
+                        showSuccess('Puzzle completed!');
                         setTimeout(nextStep, 1500);
                     }, 500);
                 }
@@ -914,7 +1025,7 @@ function showCosmeticsPopup() {
         popup.className = 'cosmetics-popup';
         popup.innerHTML = `
             <div class="cosmetics-header" onclick="toggleCosmeticsShop()">
-                <h3>🛍️ Cosmetics Shop</h3>
+                <h3>Cosmetics Microtransaction Shop</h3>
                 <button class="cosmetics-minimize" onclick="event.stopPropagation(); toggleCosmeticsShop();">−</button>
             </div>
             <div class="cosmetics-content" id="cosmetics-items">
@@ -1019,7 +1130,7 @@ function buyCosmetic(id) {
     updateBradCoinDisplay();
     updateCosmeticsShop();
     
-    showSuccess(`${item.name} purchased! +${item.coolness} coolness`);
+    showSuccess(`${item.name} purchased! +${item.coolness} profile coolness`);
 }
 
 function updateBradCoinDisplay() {
@@ -1064,7 +1175,7 @@ function showHackOffer() {
                 <p><strong>Warning:</strong> This tool bypasses DRM protections and violates the Terms of Service. Use at your own risk.</p>
             </div>
             <p style="text-align: center; color: #666; margin-bottom: 20px;">
-                Instantly unlock all cosmetics and gain 100+ coolness points
+                Instantly unlock all cosmetics and gain 100+ profile points
             </p>
             <div class="hack-price">
                 $${hackPrice} USD
@@ -1134,7 +1245,7 @@ function acceptHack() {
     // Automatically proceed to next step - no need to click retry button
     setTimeout(() => {
         nextStep();
-    }, 1500);
+    }, 1000);
 }
 
 // File Upload
@@ -1186,25 +1297,6 @@ function handleFileUpload(file, container, callback) {
 }
 
 // OAuth
-function handleOAuthLogin(provider) {
-    userData.oauthProvider = provider;
-    trackingData.formsSubmitted++;
-    
-    showLoading();
-    setTimeout(() => {
-        hideLoading();
-        showSuccess(`Connected with ${provider}!`);
-        
-        setTimeout(() => {
-            // Check coolness first
-            updateCoolnessScore();
-            nextStep();
-            
-            // If coolness is too low, they'll be blocked at step 10
-        }, 800);
-    }, 2000);
-}
-
 // Feed
 function initializeFeed() {
     console.log('Feed initialized, profilePicDataURL:', profilePicDataURL?.substring(0, 50)); // Debug
@@ -1215,7 +1307,7 @@ function initializeFeed() {
             type: 'rage',
             user: 'ControversialTakes',
             time: '2h ago',
-            content: 'Hot take: Pineapple on pizza is actually a hate crime. If you disagree, you\'re part of the problem. This is the hill I will die on.',
+            content: 'Hot take: Pineapple on pizza is actually a hate crime. If you disagree, you\'re part of the problem. This is the hill I will die on. 🍕❌🍍',
             avatar: 'C'
         },
         {
@@ -1259,9 +1351,9 @@ function initializeFeed() {
                 </div>
                 <div class="post-content">${post.content}</div>
                 <div class="post-actions">
-                    <span class="post-action">Like</span>
-                    <span class="post-action">Comment</span>
-                    <span class="post-action">Share</span>
+                    <span class="post-action">👍 Like</span>
+                    <span class="post-action">💬 Comment</span>
+                    <span class="post-action">↗️ Share</span>
                 </div>
             `;
             feedPosts.appendChild(postEl);
@@ -1390,13 +1482,13 @@ async function populateDashboard() {
     const violationsList = document.getElementById('violations-list');
     trackingData.violations.forEach(violation => {
         const li = document.createElement('li');
-        li.textContent = violation;
+        li.textContent = '' + violation;
         violationsList.appendChild(li);
     });
 }
 
 // Random Popup Ads
-function startRandomPopups() {
+function startRandomPopups() {    
     const memeImages = [
         'https://i.imgflip.com/aehs88.jpg',  // Waiting
         'https://i.imgflip.com/aehtbp.jpg',  // Always has been
@@ -1428,7 +1520,7 @@ function startRandomPopups() {
         
         document.getElementById('popup-container').appendChild(popup);
         
-        // Auto-remove after 10 seconds
+        // Auto-remove after 40 seconds
         setTimeout(() => {
             if (popup.parentElement) {
                 popup.remove();
@@ -1436,7 +1528,7 @@ function startRandomPopups() {
         }, 40000);
     }
     
-    // Create popup every 15-30 seconds
+    // Create popup every 5 seconds (with 70% chance)
     setInterval(() => {
         if (currentStep > 2 && Math.random() > 0.3) {
             createPopup();
@@ -1461,7 +1553,7 @@ async function showIPTrackingPopup() {
     popup.innerHTML = `
         <button class="popup-close" onclick="this.parentElement.remove(); trackingData.popupsDismissed++;">×</button>
         <div style="padding: 10px; text-align: center;">
-            <h3 style="margin: 0 0 12px 0; color: #ea4335;">Security Notice</h3>
+            <h3 style="margin: 0 0 12px 0; color: #ea4335;">🌐 Security Notice</h3>
             <p style="margin-bottom: 12px; font-size: 13px;">We've detected your connection:</p>
             <div style="background: #f9f9f9; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
                 <p style="margin: 4px 0; font-size: 13px;"><strong>IP Address:</strong> ${ip}</p>
@@ -1498,10 +1590,11 @@ function skipToStep(targetStep) {
     
     // Auto-fill required data based on target step
     if (targetStep >= 3) {
-        // Need account data
+        // Need account data with valid password
         userData.name = "Brad Rosen";
         userData.email = "brad.rosen@yale.edu";
-        userData.password = "SecurePass123!";
+        userData.password = "SkipPassword123!😊"; // Valid password with emoji
+        localStorage.setItem('userData', JSON.stringify(userData));
     }
     
     if (targetStep >= 5) {
