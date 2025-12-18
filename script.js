@@ -1406,7 +1406,9 @@ function startRandomPopups() {
         'https://i.imgflip.com/af5uyc.jpg',  // If I had any
         'https://i.imgflip.com/af5v8v.jpg',  // is this fair use
         'https://i.imgflip.com/af5vfq.jpg',  // They don't know
-        'https://i.imgflip.com/af5vvj.jpg'   // Draw 25
+        'https://i.imgflip.com/af5vvj.jpg',   // Draw 25
+        'https://imgflip.com/i/af9gyv.jpg', // Protecting child
+        'https://imgflip.com/i/af9hfi.jpg' // Push both
     ];
     
     function createPopup() {
