@@ -1396,12 +1396,27 @@ async function populateDashboard() {
 }
 
 // Random Popup Ads
-function startRandomPopups() {    
+function startRandomPopups() {
+    const memeImages = [
+        'https://i.imgflip.com/aehs88.jpg',  // Waiting
+        'https://i.imgflip.com/aehtbp.jpg',  // Always has been
+        'https://i.imgflip.com/af5u4r.jpg',  // Burning House
+        'https://i.imgflip.com/af5ubw.jpg',  // Trade Offer
+        'https://i.imgflip.com/af5und.jpg',  // Domino
+        'https://i.imgflip.com/af5uyc.jpg',  // If I had any
+        'https://i.imgflip.com/af5v8v.jpg',  // is this fair use
+        'https://i.imgflip.com/af5vfq.jpg',  // They don't know
+        'https://i.imgflip.com/af5vvj.jpg'   // Draw 25
+    ];
+    
     function createPopup() {
         const popup = document.createElement('div');
         popup.className = 'popup-ad';
         popup.style.left = Math.random() * (window.innerWidth - 300) + 'px';
         popup.style.top = Math.random() * (window.innerHeight - 200) + 'px';
+        
+        // Pick a random meme
+        const randomMeme = memeImages[Math.floor(Math.random() * memeImages.length)];
         
         popup.innerHTML = `
             <button class="popup-close" onclick="this.parentElement.remove(); trackingData.popupsDismissed++;">×</button>
@@ -1416,15 +1431,15 @@ function startRandomPopups() {
             if (popup.parentElement) {
                 popup.remove();
             }
-        }, 10000);
+        }, 40000);
     }
     
     // Create popup every 15-30 seconds
     setInterval(() => {
-        if (currentStep > 2 && Math.random() > 0.5) {
+        if (currentStep > 2 && Math.random() > 0.3) {
             createPopup();
         }
-    }, 20000);
+    }, 5000);
 }
 
 // IP Tracking Popup (shows after signup)
