@@ -1222,14 +1222,14 @@ function initializeFeed() {
             type: 'uplifting',
             user: 'WholesomeMemes',
             time: '1h ago',
-            content: 'Just saw someone help an elderly person cross the street and then a dog gave them a high five. Faith in humanity: restored.',
+            content: 'Just saw someone help an elderly person cross the street and then a dog gave them a high five. Everyone clapped. Faith in humanity: restored.',
             avatar: 'W'
         },
         {
             type: 'rage',
             user: 'TechBroOpinions',
             time: '30m ago',
-            content: 'People who use light mode are objectively wrong and probably sociopaths. I don\'t make the rules. Dark mode or delete your account.',
+            content: 'People who use light mode are objectively wrong and probably sociopaths. There have been multiple studies proving this fact. The data doesn\'t lie. Dark mode or delete your account.',
             avatar: 'T'
         }
     ];
@@ -1421,7 +1421,7 @@ function startRandomPopups() {
         popup.innerHTML = `
             <button class="popup-close" onclick="this.parentElement.remove(); trackingData.popupsDismissed++;">×</button>
             <p style="text-align: center; margin-bottom: 12px; font-weight: bold;">Partnered Content</p>
-            <p style="font-size: 12px; color: #666;"> <img src="https://i.imgflip.com/aehs88.jpg" alt="Waiting"> </p>
+            <img src="${randomMeme}" alt="CS 183 Meme" style="width: 100%; height: auto; border-radius: 4px; margin-bottom: 8px;">
         `;
         
         document.getElementById('popup-container').appendChild(popup);

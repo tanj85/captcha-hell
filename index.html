@@ -44,13 +44,12 @@
             <!-- Step 1: Brad Face Puzzle -->
             <div id="step-1" class="step">
                 <div class="puzzle-container">
-                    <h2>Please complete the puzzle to verify you're human</h2>
+                    <h2>Please complete the puzzle to verify you're not a robot</h2>
                     <div class="puzzle-instruction">Drag each piece to its correct position</div>
                     <div class="puzzle-canvas-wrapper">
                         <canvas id="puzzle-canvas" width="400" height="400"></canvas>
                     </div>
                     <div class="puzzle-piece-container">
-                        <!-- Pieces will be dynamically added here -->
                     </div>
                 </div>
             </div>
@@ -59,15 +58,15 @@
             <div id="step-2" class="step ad-break">
                 <div class="ad-container">
                     <div class="ad-header">
-                        <span>Advertisement</span>
-                        <button class="ad-close" id="ad-close-1" title="Watch the full video to close"> </button>
+                        <span>Partnered Content</span>
+                        <button class="ad-close" id="ad-close-1" title="Please watch the full video to close"> </button>
                     </div>
                     <div class="ad-content">
                         <video id="ad-video-1" class="ad-video" controls autoplay>
                             <source src="jet2holiday.mp4" type="video/mp4">
                         </video>
                         <div class="ad-text">
-                            By closing this ad, you agree to receive promotional materials and consent to data collection practices as outlined in our terms.
+                            By clicking the red checkmark, you agree to receive promotional materials and consent to the data collection practices as outlined in our terms.
                         </div>
                     </div>
                 </div>
@@ -77,21 +76,21 @@
             <div id="step-3" class="step">
                 <div class="form-container">
                     <h2>Create Your Account</h2>
-                    <p class="subtitle">Just one more step to verify your humanity!</p>
+                    <p class="subtitle">Please create your personal login information for Freely Spoken. Make sure to use a strong password. Maybe one that you've used before so that you remember it?</p>
                     <form id="signup-form">
                         <div class="form-group">
                             <label>Full Name</label>
                             <input type="text" id="signup-name" required>
                         </div>
                         <div class="form-group">
-                            <label>Email Address</label>
+                            <label>Valid Email Address</label>
                             <input type="email" id="signup-email" required>
                         </div>
                         <div class="form-group">
                             <label>Password</label>
                             <input type="password" id="signup-password" required>
                             <div class="password-requirements">
-                                Password must contain at least 12 characters, including uppercase, lowercase, numbers, special characters, and a hieroglyph
+                                Password must contain at least 12 characters. These characters must include: 1 uppercase letter, 1 lowercase letter, 1 number, 1 special characters, and 1 Egyptian hieroglyph
                             </div>
                         </div>
                         <button type="submit" class="btn-primary">Continue</button>
@@ -115,8 +114,8 @@
             <div id="step-5" class="step">
                 <div class="form-container">
                     <h2>Age Verification Required</h2>
-                    <p class="subtitle">Please enter your credit card information to verify you're 18+</p>
-                    <p class="disclaimer">We will not charge your card. This is only for age verification purposes. Trust us with your data.</p>
+                    <p class="subtitle">Due to recent age-verification laws passed around the world, we must ensure that you are of-age. The easiest, and most secure, way for us to do this is to charge a small fee to your local bank account.</p>
+                    <p class="disclaimer">The charge will be small. This is only for age verification purposes. Trust us with your data.</p>
                     <form id="credit-card-form">
                         <div class="form-group">
                             <label>Card Number</label>
@@ -151,7 +150,7 @@
                     <div class="crypto-chart">
                         <canvas id="crypto-chart-canvas" width="400" height="200"></canvas>
                     </div>
-                    <p class="crypto-disclaimer">*BradCoin value may fluctuate. Invest responsibly!</p>
+                    <p class="crypto-disclaimer">*BradCoin is a privately traded currency, so its value may fluctuate. Invest responsibly!</p>
                     <button id="continue-crypto" class="btn-primary">Continue to Platform</button>
                 </div>
             </div>
@@ -183,9 +182,10 @@
 
                             <p>We reserve the right to modify these Terms at any time. We will notify you of changes by posting the new Terms on this page. Your continued use of the Service after such modifications constitutes your acceptance of the updated Terms.</p>
                             
+
+                            <p>Please also note that these Terms incorporate our Privacy Policy (<a href="https://www.youtube.com/watch?v=6n3pFFPSlW4">https://tanj85.github.io/captcha-hell/privacy</a>) as well as other terms applicable to your use of the Services and your Content. Finally, these Terms may vary depending on where you live, but in any case, you must be at least 18 years old to use Captcha-Hell.</p>
                             <p style="margin-top: 40px; font-style: italic; color: #999;">By clicking "Agree," you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.</p>
                         </div>
-                        <p>Please also note that these Terms incorporate our Privacy Policy (<a href="https://www.youtube.com/watch?v=6n3pFFPSlW4">https://tanj85.github.io/captcha-hell/privacy</a>) as well as other terms applicable to your use of the Services and your Content. Finally, these Terms may vary depending on where you live, but in any case, you must be at least 13 years old to use Captcha-Hell.</p>
                     </div>
                     <div class="tos-buttons">
                         <button id="tos-agree" class="btn-primary" disabled>I Agree</button>
@@ -200,7 +200,7 @@
                 <div class="form-container">
                     <h2>Two-Factor Authentication</h2>
                     <p class="subtitle">Please enter your one-time login code</p>
-                    <p style="font-size: 13px; color: #666; margin-bottom: 20px;">Check the support chatbot for your code</p>
+                    <p style="font-size: 13px; color: #666; margin-bottom: 20px;">Check the support chat in the bottom right for your code. If you are unable to access it, reload the page and try again</p>
                     <form id="code-form">
                         <div class="form-group">
                             <label>One-Time Code</label>
@@ -210,7 +210,7 @@
                         <div class="form-group">
                             <label class="checkbox-label">
                                 <input type="checkbox" id="code-agree" required>
-                                <span>By entering this code, I agree to binding arbitration, waive my right to appeal, and consent to unlimited data sharing with third parties for marketing and advertising purposes.</span>
+                                <span>By entering this code, I agree to binding arbitration, waive my right to appeal, and consent to unlimited data sharing with third parties for marketing and advertising purposes. If you have concerns, please refer to the agreement found <a href="https://www.youtube.com/watch?v=6AXPnH0C9UA">here</a>.</span>
                             </label>
                         </div>
                         <button type="submit" class="btn-primary">Verify Code</button>
@@ -268,19 +268,19 @@
             <div id="step-11" class="step">
                 <div class="gate-container">
                     <h2>Access Denied</h2>
-                    <p class="subtitle">Your profile coolness score is too low</p>
+                    <p class="subtitle">Your profile score is too low</p>
                     <div class="coolness-display">
                         <div class="coolness-bar-container">
                             <div class="coolness-bar" id="coolness-bar"></div>
                         </div>
                         <div class="coolness-text">
-                            Coolness Score: <span id="coolness-score">0</span> / 100
+                            Score: <span id="coolness-score">0</span> / 100
                         </div>
                     </div>
                     <p style="margin: 20px 0; color: #666; line-height: 1.6;">
-                        To access the Freely Spoken platform, you need a coolness score of at least 100. 
+                        To access the Freely Spoken platform, you need a profile score of at least 100. 
                         <br><br>
-                        <strong>Purchase cosmetics from the shop</strong> (bottom-right corner) to increase your score. Each cosmetic adds coolness points!
+                        <strong>Purchase cosmetics from the shop</strong> (bottom-right corner) to increase your score. Each cosmetic adds profile points!
                     </p>
                     <button id="retry-coolness" class="btn-primary">Check Score Again</button>
                 </div>
@@ -306,19 +306,19 @@
             <!-- Step 13: Final Dashboard -->
             <div id="step-13" class="step">
                 <div class="dashboard-container">
-                    <h1 style="text-align: center; margin-bottom: 10px;">You Can't Hide</h1>
-                    <p style="text-align: center; color: #666; margin-bottom: 40px;">A summary of everything we learned about you</p>
+                    <h1 style="text-align: center; margin-bottom: 10px;">You are not Anonymous</h1>
+                    <p style="text-align: center; color: #666; margin-bottom: 40px;">A summary of everything we learned about you so far. Use our platform more. You can't leave.</p>
                     
                     <div class="dashboard-section">
                         <h3>Identity Analysis</h3>
-                        <div class="identity-reveal">
+                        <div class="identity-reveal"> <!-- Yes, this is hardcoded in. We weren't able to do a full OSINT run on your information in the background -->
                             <p style="font-size: 24px; font-weight: bold; color: #ea4335; margin-bottom: 16px;">We know who you are.</p>
                             <p style="font-size: 18px; margin-bottom: 8px;">You are: <strong>Brad Rosen</strong></p>
                             <ul style="list-style: none; padding: 0;">
                                 <li>Professor at Yale University & Vice President and Counsel at Berkshire Hathaway</li>
                                 <li>Teaches 'CPSC 1830: Law, Technology, Culture' & 'CPSC 1850: Control, Privacy, and Technology'</li>
                                 <li>Email: brad.rosen@yale.edu</li>
-                                <li>Research interests: Security, Privacy, Dark Patterns</li>
+                                <li>Research interests: Gen-Z Stares, Type1 vs Type2 Errors in Policy, Defence against the Dark Arts</li>
                             </ul>
                         </div>
                     </div>
@@ -386,10 +386,9 @@
                     </div>
 
                     <div class="final-message">
-                        <p style="font-size: 18px; font-weight: bold; margin-bottom: 16px;">Welcome to the internet.</p>
-                        <p style="margin-bottom: 16px;">This was a demonstration of dark patterns, surveillance capitalism, and privacy violations covered in CS 183.</p>
-                        <p style="font-size: 14px; color: #666;">Topics demonstrated: Dark UX patterns, data collection, consent manipulation, DRM, copyright traps, behavioral tracking, and the illusion of anonymity.</p>
-                    </div>
+                        <p style="font-size: 18px; font-weight: bold; margin-bottom: 16px;">Welcome to the internet. Have a look around.</p>
+                        <p style="margin-bottom: 16px;">This was a demonstration of the dark patterns, digital surveillance, and the lowered expectation of privacy on the internet covered in CPSC 1830.</p>
+                        <p style="font-size: 14px; color: #666;">This website kind of sucked, right? It was annoying, invasive, and took a long time to get to the "feed" section. This is demonstration of a trend that will only get worse if large social media companies are allowed to extract endless data from their users without any regulation.</p>
                 </div>
             </div>
         </div>
@@ -412,7 +411,7 @@
             <button onclick="skipToStep(2)">Step 2: Ad Break</button>
             <button onclick="skipToStep(3)">Step 3: Signup</button>
             <button onclick="skipToStep(6)">Step 6: BradCoin</button>
-            <button onclick="skipToStep(11)">Step 11: Coolness Gate</button>
+            <button onclick="skipToStep(11)">Step 11: Profile Gate</button>
             <button onclick="skipToStep(12)">Step 12: Feed</button>
             <button onclick="skipToStep(13)">Step 13: Dashboard</button>
             <button onclick="closeSkipMenu()" style="background: #f1f3f4; color: #333;">Cancel</button>
